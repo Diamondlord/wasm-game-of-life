@@ -1,8 +1,16 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
-use std::fmt;
+extern crate js_sys;
 use js_sys::Math::random;
+extern crate web_sys;
+
+// A macro to provide `println!(..)`-style syntax for `console.log` logging.
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        web_sys::console::log_1(&format!( $( $t )* ).into());
+    }
+}
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -53,6 +61,16 @@ impl Universe {
                     // All other cells remain in the same state.
                     (otherwise, _) => otherwise,
                 };
+                if cell != next_cell {
+                    log!(
+                        "cell[{}, {}] is initially {:?} and has {} live neighbors - now it is {:?}",
+                        row,
+                        col,
+                        cell,
+                        live_neighbors,
+                        next_cell
+                    );
+                }
 
                 next[idx] = next_cell;
             }
@@ -83,6 +101,7 @@ impl Universe {
     }
 
     pub fn new() -> Universe {
+        utils::set_panic_hook();
         let width = 64;
         let height = 64;
 
@@ -96,25 +115,25 @@ impl Universe {
 //            })
 //            .collect();
 //     // Glider hardcoded
-        let mut cells:Vec<Cell> = (0..width * height)
-            .map(|i| {
-                    Cell::Dead
-            })
-            .collect();
-////        row * width + column
-        cells[0+1] = Cell::Alive;
-        cells[1*height+1] = Cell::Alive;
-        cells[1*height+2] = Cell::Alive;
-        cells[2*height+0] = Cell::Alive;
-        cells[2*height+2] = Cell::Alive;
-
-        let width = width as u32;
-        let height = height as u32;
+//        let mut cells:Vec<Cell> = (0..width * height)
+//            .map(|i| {
+//                    Cell::Dead
+//            })
+//            .collect();
+//////        row * width + column
+//        cells[0+1] = Cell::Alive;
+//        cells[1*height+1] = Cell::Alive;
+//        cells[1*height+2] = Cell::Alive;
+//        cells[2*height+0] = Cell::Alive;
+//        cells[2*height+2] = Cell::Alive;
+//
+//        let width = width as u32;
+//        let height = height as u32;
 
 
 //         Math.Random
         let cells = (0..width * height)
-            .map(|i| {
+            .map(|_i| {
                 if random() >= 0.5 {
                     Cell::Alive
                 } else {
@@ -122,6 +141,7 @@ impl Universe {
                 }
             })
             .collect();
+//        log!("{:?}", cells);
         Universe {
             width,
             height,
