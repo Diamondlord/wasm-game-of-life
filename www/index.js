@@ -1,3 +1,3 @@
 import * as wasm from "wasm-game-of-life";
-
-wasm.greet();
+const name = "Vova";
+wasm.greet(name);
