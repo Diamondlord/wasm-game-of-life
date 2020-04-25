@@ -2,6 +2,7 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 use std::fmt;
+use js_sys::Math::random;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -99,16 +100,42 @@ impl Universe {
         let width = 64;
         let height = 64;
 
+//        let cells = (0..width * height)
+//            .map(|i| {
+//                if i % 2 == 0 || i % 7 == 0 {
+//                    Cell::Alive
+//                } else {
+//                    Cell::Dead
+//                }
+//            })
+//            .collect();
+////     // Glider hardcoded
+//        let mut cells:Vec<Cell> = (0..width * height)
+//            .map(|i| {
+//                    Cell::Dead
+//            })
+//            .collect();
+//////        row * width + column
+//        cells[0+1] = Cell::Alive;
+//        cells[1*height+1] = Cell::Alive;
+//        cells[1*height+2] = Cell::Alive;
+//        cells[2*height+0] = Cell::Alive;
+//        cells[2*height+2] = Cell::Alive;
+//
+//        let width = width as u32;
+//        let height = height as u32;
+
+
+        // Math.Random
         let cells = (0..width * height)
             .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+                if random() >= 0.5 {
                     Cell::Alive
                 } else {
                     Cell::Dead
                 }
             })
             .collect();
-
         Universe {
             width,
             height,
