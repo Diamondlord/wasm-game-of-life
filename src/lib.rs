@@ -26,6 +26,25 @@ pub enum Cell {
     Alive = 1,
 }
 
+impl Cell {
+    fn toggle(&mut self) {
+        *self = match *self {
+            Cell::Dead => Cell::Alive,
+            Cell::Alive => Cell::Dead,
+        };
+    }
+}
+
+fn gen_state_cells(cells: &mut Vec<Cell>, width: u32, height: u32) -> () {
+    for i in 0..cells.len() {
+        cells[i] = if random() >= 0.5 {
+            Cell::Alive
+        } else {
+            Cell::Dead
+        }
+    }
+}
+
 #[wasm_bindgen]
 pub struct Universe {
     width: u32,
@@ -79,6 +98,11 @@ impl Universe {
         self.cells = next;
     }
 
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+        self.cells[idx].toggle();
+    }
+
     fn get_index(&self, row: u32, column: u32) -> usize {
         (row * self.width + column) as usize
     }
@@ -104,49 +128,21 @@ impl Universe {
         utils::set_panic_hook();
         let width = 64;
         let height = 64;
-
-//        let cells = (0..width * height)
-//            .map(|i| {
-//                if i % 2 == 0 || i % 7 == 0 {
-//                    Cell::Alive
-//                } else {
-//                    Cell::Dead
-//                }
-//            })
-//            .collect();
-//     // Glider hardcoded
-//        let mut cells:Vec<Cell> = (0..width * height)
-//            .map(|i| {
-//                    Cell::Dead
-//            })
-//            .collect();
-//////        row * width + column
-//        cells[0+1] = Cell::Alive;
-//        cells[1*height+1] = Cell::Alive;
-//        cells[1*height+2] = Cell::Alive;
-//        cells[2*height+0] = Cell::Alive;
-//        cells[2*height+2] = Cell::Alive;
-//
-//        let width = width as u32;
-//        let height = height as u32;
-
-
 //         Math.Random
-        let cells = (0..width * height)
-            .map(|_i| {
-                if random() >= 0.5 {
-                    Cell::Alive
-                } else {
-                    Cell::Dead
-                }
-            })
-            .collect();
+        let mut cells: Vec<Cell> = vec![Cell::Dead; width * height];
+        let width = width as u32;
+        let height = height as u32;
+        gen_state_cells(&mut cells, width, height);
 //        log!("{:?}", cells);
         Universe {
             width,
             height,
             cells,
         }
+    }
+
+    pub fn reset_state(&mut self) {
+        gen_state_cells(&mut self.cells, self.width, self.height);
     }
 
     pub fn width(&self) -> u32 {
@@ -166,7 +162,7 @@ impl Universe {
     /// Resets all cells to the dead state.
     pub fn set_width(&mut self, width: u32) {
         self.width = width;
-        self.cells = (0..width * self.height).map(|_i| Cell::Dead).collect();
+        self.kill_cells();
     }
 
     /// Set the height of the universe.
@@ -174,7 +170,11 @@ impl Universe {
     /// Resets all cells to the dead state.
     pub fn set_height(&mut self, height: u32) {
         self.height = height;
-        self.cells = (0..self.width * height).map(|_i| Cell::Dead).collect();
+        self.kill_cells();
+    }
+
+    pub fn kill_cells(&mut self) {
+        self.cells = (0..self.width * self.height).map(|_i| Cell::Dead).collect();
     }
 }
 
