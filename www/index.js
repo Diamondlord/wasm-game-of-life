@@ -21,7 +21,8 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 const playPauseButton = document.getElementById("play-pause");
 const resetButton = document.getElementById("reset");
 const killButton = document.getElementById("kill");
-
+const speedButton = document.getElementById("speed");
+let speed = 1;
 const ctx = canvas.getContext('2d');
 
 const drawGrid = () => {
@@ -104,8 +105,9 @@ const renderLoop = () => {
   // debugger;
   drawGrid();
   drawCells();
-  universe.tick();
-
+  for (let i = 0; i < speed; i++) {
+    universe.tick();
+  }
   animationId = requestAnimationFrame(renderLoop);
 };
 
@@ -135,4 +137,9 @@ resetButton.addEventListener("click", event => {
 
 killButton.addEventListener("click", event => {
   universe.kill_cells();
+});
+
+speedButton.addEventListener("input", event => {
+  console.log(event);
+  speed = event.target.value;
 });
