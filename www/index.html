@@ -14,15 +14,90 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        font-family: Sans-Serif;
+      }
+
+      *:focus {
+        outline: none;
+      }
+
+      .control-panel {
+        display: flex;
+        margin-bottom: 15px;
+        justify-content: center;
+        width: fit-content;
+      }
+
+      .btn {
+        white-space: nowrap;
+        min-width: 100px;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 18px;
+        margin: 5px;
+        width: fit-content;
+        border-radius: 3px;
+        background-color: #4CAF50;
+        border: 3px solid #4CAF50;
+        color: white;
+        text-transform: uppercase;
+        text-shadow: 0px 2px rgba(77, 77, 77, 0.5);
+        /*box-shadow: 0px 6px rgba(77, 77, 77, 1);*/
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        transform: scale(1.05);
+      }
+
+      .btn:active {
+        text-shadow: 0px 2px rgba(77, 77, 77, 0.5);
+        box-shadow: 0px 0px rgba(77, 77, 77, 1);
+        transform: translateY(6px);
+      }
+
+      label {
+        text-transform: uppercase;
+        padding: 0 10px;
+      }
+      input[type=range]{
+        -webkit-appearance: none;
+      }
+
+      input[type=range]::-webkit-slider-runnable-track {
+        width: 300px;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 3px;
+      }
+
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 20px;
+        width: 10px;
+        border-radius: 3px;
+        background: #4CAF50;
+        margin-top: -7px;
+      }
+
+      input[type=range]:focus::-webkit-slider-runnable-track {
+        background: #ccc;
       }
     </style>
   </head>
   <body>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
-    <button id="play-pause"></button>
-    <button id="reset">Reset</button>
-    <button id="kill">Kill all</button>
-    <input type="range" id="speed" name="speed" min="0" max="4" value="1">
+    <div class="control-panel">
+        <button class="btn" id="play-pause">Click Here</Button>
+        <button class="btn" id="reset">Restart</button>
+        <button class="btn" id="kill">Kill all</button>
+    </div>
+    <div class="control-panel">
+      <label for="speed">Speed</label>
+      <input type="range" id="speed" name="speed" min="0" max="4" value="1">
+    </div>
     <canvas id="game-of-life-canvas"></canvas>
     <script src="./bootstrap.js"></script>
   </body>
