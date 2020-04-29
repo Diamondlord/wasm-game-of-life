@@ -155,8 +155,8 @@ impl Universe {
     pub fn new() -> Universe {
         utils::set_panic_hook();
 //        panic!("my custom message");
-        let width = 128;
-        let height = 128;
+        let width = 64;
+        let height = 64;
 //         Math.Random
         let mut cells: Vec<Cell> = vec![Cell::Dead; width * height];
         let width = width as u32;

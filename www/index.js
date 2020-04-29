@@ -2,7 +2,7 @@ import { Universe, Cell } from "wasm-game-of-life";
 // Import the WebAssembly memory at the top of the file.
 import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
 
-const CELL_SIZE = 6; // px
+const CELL_SIZE = 12; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
@@ -24,6 +24,8 @@ const playPauseButton = document.getElementById("play-pause");
 const resetButton = document.getElementById("reset");
 const killButton = document.getElementById("kill");
 const speedButton = document.getElementById("speed");
+const fpsButton = document.getElementById("fpsbtn");
+const fpsInfo = document.getElementById("fps");
 let speed = 1;
 const ctx = canvas.getContext('2d');
 
@@ -200,9 +202,18 @@ resetButton.addEventListener("click", event => {
 
 killButton.addEventListener("click", event => {
   universe.kill_cells();
+  setTimeout(pause, 100);
 });
 
 speedButton.addEventListener("input", event => {
   console.log(event);
   speed = event.target.value;
+});
+
+fpsButton.addEventListener("click", event => {
+  if (fpsInfo.style.display === "none") {
+    fpsInfo.style.display = "flex";
+  } else {
+    fpsInfo.style.display = "none";
+  }
 });

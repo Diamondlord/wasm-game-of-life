@@ -1,3 +1,6 @@
+Shrinking .wasm size  
+```gzip -9 < pkg/wasm_game_of_life_bg.wasm | wc -c```
+  
 <div align="center">
 
   <h1><code>wasm-pack-template</code></h1>
