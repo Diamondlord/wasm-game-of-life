@@ -6,3 +6,4 @@ pkg/
 wasm-pack.log
 before.txt
 after.txt
+.DS_Store

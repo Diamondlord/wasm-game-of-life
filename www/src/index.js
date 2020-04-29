@@ -2,6 +2,10 @@ import { Universe, Cell } from "wasm-game-of-life-diamondlord";
 // Import the WebAssembly memory at the top of the file.
 import { memory } from "wasm-game-of-life-diamondlord/wasm_game_of_life_diamondlord_bg";
 
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Looks like we are in development mode!');
+}
+
 const CELL_SIZE = 10; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
@@ -178,6 +182,7 @@ const renderLoop = () => {
 };
 
 canvas.addEventListener("click", event => {
+  pause();
   const boundingRect = canvas.getBoundingClientRect();
 
   const scaleX = canvas.width / boundingRect.width;
