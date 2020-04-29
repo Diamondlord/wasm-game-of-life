@@ -206,7 +206,6 @@ killButton.addEventListener("click", event => {
 });
 
 speedButton.addEventListener("input", event => {
-  console.log(event);
   speed = event.target.value;
 });
 

@@ -1,14 +1,16 @@
 [package]
-name = "wasm-game-of-life"
+name = "wasm-game-of-life-diamondlord"
 version = "0.1.0"
 authors = ["Diamondlord <vladimir.almazov@gmail.com>"]
-edition = "2018"
+edition = "2020"
+readme = "README.md"
+repository = "https://github.com/Diamondlord/wasm-game-of-life"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-#[features]
-#default = ["console_error_panic_hook"]
+[features]
+#default = ["wee_alloc"]
 
 [dependencies]
 wasm-bindgen = "0.2"
@@ -44,8 +46,7 @@ wasm-bindgen-test = "0.2"
 #The downside is that compilation will take longer.
 lto = true
 
-
 # LLVM's optimization passes are tuned to improve speed, not size, by default. We can change the goal to code size by modifying the [profile.release] section in Cargo.toml to this:
-# opt-level = "s"
+ opt-level = "s"
 # Or, to even more aggressively optimize for size, at further potential speed costs:
-opt-level = 'z'
+#opt-level = 'z'
