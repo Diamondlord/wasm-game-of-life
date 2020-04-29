@@ -1,8 +1,8 @@
-import { Universe, Cell } from "wasm-game-of-life";
+import { Universe, Cell } from "wasm-game-of-life-diamondlord";
 // Import the WebAssembly memory at the top of the file.
-import { memory } from "wasm-game-of-life/wasm_game_of_life_diamondlord_bg";
+import { memory } from "wasm-game-of-life-diamondlord/wasm_game_of_life_diamondlord_bg";
 
-const CELL_SIZE = 12; // px
+const CELL_SIZE = 10; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
@@ -170,7 +170,6 @@ max of last 100 = ${Math.round(max)}
 const renderLoop = () => {
   // debugger;
   fps.render();
-  drawGrid();
   drawCells();
   for (let i = 0; i < speed; i++) {
     universe.tick();
@@ -191,21 +190,19 @@ canvas.addEventListener("click", event => {
   const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
 
   universe.toggle_cell(row, col);
-
-  drawGrid();
   drawCells();
 });
 
-play();
-
 resetButton.addEventListener("click", event => {
   universe.reset_state();
+  drawCells();
   cells = setPntrToCells();
 });
 
 killButton.addEventListener("click", event => {
   universe.kill_cells();
   cells = setPntrToCells();
+  drawCells();
   setTimeout(pause, 100);
 });
 
@@ -220,3 +217,6 @@ fpsButton.addEventListener("click", event => {
     fpsInfo.style.display = "none";
   }
 });
+
+drawGrid();
+play();
