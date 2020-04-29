@@ -19,6 +19,7 @@ fixedbitset = "0.3.0"
 version = "0.3"
 features = [
   "console",
+  "Window"
 ]
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -37,5 +38,6 @@ wee_alloc = { version = "0.4.2", optional = true }
 wasm-bindgen-test = "0.2"
 
 [profile.release]
+debug = true
 # Tell `rustc` to optimize for small code size.
 opt-level = "s"

@@ -85,6 +85,12 @@
       input[type=range]:focus::-webkit-slider-runnable-track {
         background: #ccc;
       }
+
+      #fps {
+        white-space: pre;
+        font-family: monospace;
+        /*visibility: hidden;*/
+      }
     </style>
   </head>
   <body>
@@ -96,8 +102,9 @@
     </div>
     <div class="control-panel">
       <label for="speed">Speed</label>
-      <input type="range" id="speed" name="speed" min="0" max="4" value="1">
+      <input type="range" id="speed" name="speed" min="0" max="9" value="1">
     </div>
+    <div id="fps"></div>
     <canvas id="game-of-life-canvas"></canvas>
     <script src="./bootstrap.js"></script>
   </body>
