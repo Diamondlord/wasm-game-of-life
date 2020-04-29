@@ -9,10 +9,15 @@ const ALIVE_COLOR = "#000000";
 
 // Construct the universe, and get its width and height.
 const universe = Universe.new();
+let width = universe.width();
+let height = universe.height();
 
+const setPntrToCells = () => {
+  const cellsPtr = universe.cells();
+  return new Uint8Array(memory.buffer, cellsPtr, width * height);
+};
 
-const width = universe.width();
-const height = universe.height();
+let cells = setPntrToCells();
 
 // Give the canvas room for all of our cells and a 1px border
 // around each of them.
@@ -53,9 +58,6 @@ const getIndex = (row, column) => {
 };
 
 const drawCells = () => {
-  const cellsPtr = universe.cells();
-  const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
-
   ctx.beginPath();
 
 // Alive cells.
@@ -198,10 +200,12 @@ play();
 
 resetButton.addEventListener("click", event => {
   universe.reset_state();
+  cells = setPntrToCells();
 });
 
 killButton.addEventListener("click", event => {
   universe.kill_cells();
+  cells = setPntrToCells();
   setTimeout(pause, 100);
 });
 
