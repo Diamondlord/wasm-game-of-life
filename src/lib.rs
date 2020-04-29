@@ -7,11 +7,11 @@ extern crate web_sys;
 use web_sys::console;
 
 // A macro to provide `println!(..)`-style syntax for `console.log` logging.
-//macro_rules! log {
-//    ( $( $t:tt )* ) => {
-//        console::log_1(&format!( $( $t )* ).into());
-//    }
-//}
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        console::log_1(&format!( $( $t )* ).into());
+    }
+}
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -41,6 +41,7 @@ pub struct Universe {
     width: u32,
     height: u32,
     cells: Vec<Cell>,
+    next_cells: Vec<Cell>,
 }
 
 /// Public methods, exported to JavaScript.
@@ -48,10 +49,6 @@ pub struct Universe {
 impl Universe {
     pub fn tick(&mut self) {
 //        let _timer = Timer::new("Universe::tick");
-        let mut next = {
-//            let _timer = Timer::new("allocate next cells");
-            self.cells.clone()
-        };
         {
 //            let _timer = Timer::new("new generation");
             for row in 0..self.height {
@@ -76,12 +73,12 @@ impl Universe {
                         // All other cells remain in the same state.
                         (otherwise, _) => otherwise,
                     };
-                    next[idx] = next_cell;
+                    self.next_cells[idx] = next_cell;
                 }
             }
         }
-//        let _timer = Timer::new("free old cells");
-        self.cells = next;
+//        let _timer = Timer::new("update sells");
+        self.cells = self.next_cells.clone();
     }
 
     pub fn toggle_cell(&mut self, row: u32, column: u32) {
@@ -157,21 +154,22 @@ impl Universe {
 //        panic!("my custom message");
         let width = 64;
         let height = 64;
-//         Math.Random
         let mut cells: Vec<Cell> = vec![Cell::Dead; width * height];
+        let mut next_cells: Vec<Cell> = vec![Cell::Dead; width * height];
         let width = width as u32;
         let height = height as u32;
-        Universe::gen_state_cells(&mut cells, width, height);
+        Universe::gen_state_cells(&mut cells);
 //        log!("{:?}", cells);
         Universe {
             width,
             height,
             cells,
+            next_cells,
         }
     }
 
     pub fn reset_state(&mut self) {
-        Universe::gen_state_cells(&mut self.cells, self.width, self.height);
+        Universe::gen_state_cells(&mut self.cells);
     }
 
     pub fn width(&self) -> u32 {
@@ -204,6 +202,7 @@ impl Universe {
 
     pub fn kill_cells(&mut self) {
         self.cells = (0..self.width * self.height).map(|_i| Cell::Dead).collect();
+        self.next_cells = (0..self.width * self.height).map(|_i| Cell::Dead).collect();
     }
 }
 
@@ -223,7 +222,7 @@ impl Universe {
         }
     }
 
-    fn gen_state_cells(cells: &mut Vec<Cell>, width: u32, height: u32) -> () {
+    fn gen_state_cells(cells: &mut Vec<Cell>) -> () {
         for i in 0..cells.len() {
             cells[i] = if random() >= 0.5 {
                 Cell::Alive
