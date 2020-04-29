@@ -78,7 +78,7 @@ impl Universe {
             }
         }
 //        let _timer = Timer::new("update sells");
-        self.cells = self.next_cells.clone();
+        self.cells.copy_from_slice(self.next_cells.as_slice());
     }
 
     pub fn toggle_cell(&mut self, row: u32, column: u32) {
@@ -155,7 +155,7 @@ impl Universe {
         let width = 64;
         let height = 64;
         let mut cells: Vec<Cell> = vec![Cell::Dead; width * height];
-        let mut next_cells: Vec<Cell> = vec![Cell::Dead; width * height];
+        let next_cells: Vec<Cell> = vec![Cell::Dead; width * height];
         let width = width as u32;
         let height = height as u32;
         Universe::gen_state_cells(&mut cells);
