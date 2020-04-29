@@ -1,6 +1,6 @@
 import { Universe, Cell } from "wasm-game-of-life";
 // Import the WebAssembly memory at the top of the file.
-import { memory } from "wasm-game-of-life/wasm_game_of_life_bg";
+import { memory } from "wasm-game-of-life/wasm_game_of_life_diamondlord_bg";
 
 const CELL_SIZE = 12; // px
 const GRID_COLOR = "#CCCCCC";
