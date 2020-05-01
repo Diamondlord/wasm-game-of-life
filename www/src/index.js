@@ -118,6 +118,7 @@ const pause = () => {
   playPauseButton.textContent = "Play";
   cancelAnimationFrame(animationId);
   animationId = null;
+  drawCells();
 };
 
 playPauseButton.addEventListener("click", event => {
@@ -216,11 +217,7 @@ speedButton.addEventListener("input", event => {
 });
 
 fpsButton.addEventListener("click", event => {
-  if (fpsInfo.style.display === "none") {
-    fpsInfo.style.display = "flex";
-  } else {
-    fpsInfo.style.display = "none";
-  }
+  fpsInfo.classList.toggle("hidden");
 });
 
 drawGrid();
