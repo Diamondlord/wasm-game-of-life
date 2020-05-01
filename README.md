@@ -1,3 +1,4 @@
+![Build and Deploy to GitHub Pages](https://github.com/Diamondlord/wasm-game-of-life/workflows/Build%20and%20Deploy%20to%20GitHub%20Pages/badge.svg?event=page_build)
 ## 🚴 Usage
 Started from tutorial -  <a href="https://rustwasm.github.io/docs/book/game-of-life/setup.html">Tutorial</a>
 ### 🛠️ Build with `wasm-pack build`
