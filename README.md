@@ -13,12 +13,6 @@ wasm-pack build
 wasm-pack test --headless --firefox
 ```
 
-### 🎁 Publish to NPM with `wasm-pack publish`
-
-```
-wasm-pack publish
-```
-
 ## 🔋 Batteries Included
 
 * [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) for communicating
